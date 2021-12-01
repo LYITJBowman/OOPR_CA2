@@ -9,29 +9,32 @@
 #
 import paramiko
 
-if __name__ == '__main__':
-    # Define connection parameters
-    destination_ip = "192.168.0.207".rstrip("\n")
-    destination_port = 3022
-    user_name = "l00170244".rstrip("\n")
-    user_password = "ass1gnm3nt".rstrip("\n")
+
+def test_ssh_connection(destination, port, user, password):
+    # Configure the Paramiko Session
     session = paramiko.SSHClient()
     session.set_missing_host_key_policy(paramiko.AutoAddPolicy)
 
-    # Create a Boolean to store the connection status
-    session_active = False
-
     # Attempt to make an SSH Connection, attempt to gracefully handle the error if not
     try:
-        session.connect(hostname=destination_ip, port=destination_port, username=user_name, password=user_password)
-        session_active = True  # Set the Boolean to True if the connection succeeds
+        session.connect(hostname=destination.rstrip("\n"),
+                        port=port,
+                        username=user.rstrip("\n"),
+                        password=password.rstrip("\n"))
+        print("\nSSH Connection Successful!")
     except paramiko.ssh_exception.SSHException as err:
-        print("SSH Connection failed!")
+        print("\nSSH Connection failed!")
         print(err)
+        exit(99)
 
-    # Execute a command against the target server if the session_active parameter has been set to true
-    if session_active:
-        # Capture the command output enabled through get_pty in three variables for review
-        stdin, stdout, stderr = session.exec_command('whoami', get_pty=True)
-        for line in stdout.readline():
-            print(line, end="")  # end of line formatting required to prevent output being displayed vertically
+
+if __name__ == '__main__':
+    # Prompt for connection parameters
+    destination_ip = input("Please enter a target IP address: ")
+    destination_port = input("Please enter the port to SSH to: ")
+    user_name = input("Please enter your user name: ")
+    user_password = input("Please enter your password: ")
+
+    # Attempt the connection
+    test_ssh_connection(destination_ip
+                        , destination_port, user_name, user_password)
