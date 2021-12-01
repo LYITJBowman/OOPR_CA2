@@ -5,7 +5,7 @@
 # Version     : v1.0.0
 # Licensing   : (C) James Bowman
 #               Available under GNU Public License (GPL)
-# Description : 
+# Description : Script to test the execution of commands on a remote Linux machine
 #
 
 import paramiko
@@ -33,7 +33,7 @@ def print_remote_output(executed_command, standard_output):
     print("-" * 60)
     print("Output from command: {}\n".format(executed_command))
     for line in standard_output.read().splitlines():
-        print(line)  # end of line formatting required to prevent output being displayed vertically
+        print(line)
     print("\n")
 
 
