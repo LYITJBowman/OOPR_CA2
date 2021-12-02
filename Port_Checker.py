@@ -12,7 +12,7 @@ import socket
 import subprocess
 import sys
 from datetime import datetime
-from Port_Service_Translator import port_service_translator
+from Port_Service_Translator import port_service_translator_csv
 
 def port_scan():
     # Clear the screen
@@ -38,7 +38,7 @@ def port_scan():
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             result = sock.connect_ex((remote_server_ip, port))
             if result == 0:
-                port_service, port_description = port_service_translator(port)
+                port_service, port_description = port_service_translator_csv(port)
                 print ("Port {}: Open \t Service Name: {} \t Service Description: {}".format(port, port_service, port_description))
             sock.close()
     except KeyboardInterrupt:
