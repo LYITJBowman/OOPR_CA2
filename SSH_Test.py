@@ -11,6 +11,14 @@ import paramiko
 
 
 def test_ssh_connection(destination, port, user, password):
+    """
+    Function to attempt an SSH connection and print results to screen
+    :param destination: The IP address of the destination system
+    :param port: The port to connect to.  Normally SSH would be port 22.
+    :param user: The remote username to use
+    :param password: The associated password for the remote user
+    :return: None
+    """
     # Configure the Paramiko Session
     session = paramiko.SSHClient()
     session.set_missing_host_key_policy(paramiko.AutoAddPolicy)

@@ -14,7 +14,13 @@ import sys
 from datetime import datetime
 from Port_Service_Translator import port_service_translator_csv
 
+
 def port_scan():
+    """
+    Function to scan a remote machine to determine if ports within the defined range are open.
+    If an open port is found use the port_service_translator_csv to retrieve information on the service running
+    :return: None
+    """
     # Clear the screen
     subprocess.call("cls", shell=True)
 
@@ -35,12 +41,17 @@ def port_scan():
 
     try:
         for port in range(78, 81):
+            # Attempt to establish a connection to the port
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             result = sock.connect_ex((remote_server_ip, port))
             if result == 0:
+                # Result 0 indicates a success
+                # Call the translator function to get information on the service running on that port
                 port_service, port_description = port_service_translator_csv(port)
+                # Print the results neatly
                 print ("Port {}: Open \t Service Name: {} \t Service Description: {}".format(port, port_service, port_description))
             sock.close()
+    # Error Handling below
     except KeyboardInterrupt:
         print("You pressed Ctrl+C")
         sys.exit()
@@ -62,5 +73,7 @@ def port_scan():
     print("Scanning completed in: ", total_runtime)
     print("-" * 60)
 
+
 if __name__ == '__main__':
+    # Run the Port Scan function
     port_scan()
